@@ -22,18 +22,23 @@ public class AutorizadorListener implements PhaseListener {
     }
 
     private void modificarUbicacion(String currentPage) {
+        String modulo = "";
         if (currentPage.contains("dashboard")) {
-            System.out.println("Se Encuentra en: Dashboard");
+            modulo = "Dashboard";
         }
         if (currentPage.contains("administracion/usuarios.xhtml")) {
-            System.out.println("Se Encuentra en: Administración-Usuarios");
+            modulo = "Administración-Usuarios";
         }
         if (currentPage.contains("administracion/perfiles.xhtml")) {
-            System.out.println("Se Encuentra en: Administración-Perfiles");
+            modulo = "Administración-Perfiles";
         }
-        if (currentPage.contains("administracion/parametros.xhtml")) {
-            System.out.println("Se Encuentra en: Configuración-Parámetros");
+        if (currentPage.contains("configuracion/parametros.xhtml")) {
+            modulo = "Configuración-Parámetros";
         }
+        if (currentPage.contains("configuracion/sesiones.xhtml")) {
+            modulo = "Configuración-Sesiones";
+        }
+        ControladorSesiones.getInstance().cambioUbicacion(modulo);
     }
 
     @Override

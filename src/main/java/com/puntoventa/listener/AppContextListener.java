@@ -5,7 +5,7 @@
  */
 package com.puntoventa.listener;
 
-import java.util.Date;
+import com.puntoventa.sesiones.ControladorSesiones;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
@@ -22,7 +22,7 @@ public class AppContextListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent se) {
-        System.out.println("SesionEliminada... " + new Date());
+        ControladorSesiones.getInstance().removeSession(se.getSession());
     }
 
 }

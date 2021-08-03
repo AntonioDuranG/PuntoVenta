@@ -23,8 +23,10 @@ public class CredencialesDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
+
             con = DBConnectionManager.getInstance().getConnection();
             ps = con.prepareStatement(Querys.QUERY_LOGIN);
+            System.out.println("Login: " + Querys.QUERY_LOGIN + " | " + email + " | " + password);
             ps.setString(1, email);
             ps.setString(2, password);
             rs = ps.executeQuery();

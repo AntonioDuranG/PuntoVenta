@@ -5,8 +5,10 @@
  */
 package com.puntoventa.credenciales;
 
+import com.puntoventa.sesiones.ControladorSesiones;
 import com.puntoventa.tos.UsuarioTO;
 import com.puntoventa.util.Mensajes;
+import com.puntoventa.util.MyPaths;
 import com.puntoventa.util.Util;
 import java.io.Serializable;
 import javax.faces.application.FacesMessage;
@@ -34,17 +36,25 @@ public class Login implements Serializable {
         }
     }
 
-    public void login(ActionEvent actionEvent) {
+    public void login(ActionEvent e) {
         FacesMessage msg;
 //        
-        System.out.println("Credenciales: " + mail + " | " + password);
         UsuarioTO u = controlador.consultarLogin(mail, password);
         if (u == null) {
-            msg = Util.getFacesMessage(FacesMessage.SEVERITY_INFO, Mensajes.EXITOSO_CREDENCIALES + u.getApaterno() + " " + u.getAmaterno() + " " + u.getNombre());
-        } else {
             msg = Util.getFacesMessage(FacesMessage.SEVERITY_ERROR, Mensajes.ERROR_CREDENCIALES);
+        } else {
+            msg = Util.getFacesMessage(FacesMessage.SEVERITY_INFO, Mensajes.EXITOSO_CREDENCIALES + u.getApaterno() + " " + u.getAmaterno() + " " + u.getNombre());
+            ControladorSesiones.getInstance().addSession(u);
+            Util.cambiarUbicacion(MyPaths.getDashboard());
         }
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void logout(ActionEvent event) {
+        boolean isvalidate = ControladorSesiones.getInstance().removeSession();
+        if (isvalidate) {
+            Util.cambiarUbicacion(MyPaths.getLogin());
+        }
     }
 
     public String getMail() {

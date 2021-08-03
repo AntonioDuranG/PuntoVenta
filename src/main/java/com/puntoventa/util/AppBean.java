@@ -34,4 +34,8 @@ public class AppBean implements Serializable {
     public void cambiarParametros() {
         Util.cambiarUbicacion(MyPaths.getParametros());
     }
+
+    public void cambiarSesiones() {
+        Util.cambiarUbicacion(MyPaths.getSesiones());
+    }
 }

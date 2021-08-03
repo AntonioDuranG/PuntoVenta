@@ -36,6 +36,9 @@
     <listener>
         <listener-class>com.puntoventa.listener.AppContextListener</listener-class>
     </listener>
+    <error-page>
+        <location>/login.xhtml</location>
+    </error-page>
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>

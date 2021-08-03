@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/template.xhtml">
+
+            <ui:define name="title">
+                Sesiones
+            </ui:define>
+
+            <ui:define name="head">
+                <style>
+                    .ui-datatable thead th .ui-column-title {
+                        font-size: .9em; 
+                    }  
+                    .ui-datatable .ui-datatable-header {
+                        text-align: right !important;
+                    }
+                </style>
+            </ui:define>
+
+            <ui:define name="viewname">
+                Sesiones
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="formsesiones">
+                    <div class="ui-g ui-fluid">
+                        
+                        <p:poll id="pollsesion" widgetVar="pollSesion" autoStart="true" interval="10" listener="#{sesiones.init()}" update="idsesiones"/>
+                        
+                        <div class="ui-g-12 ui-lg-12" align="center">
+                            <p:dataTable id="idsesiones" var="sesion" value="#{sesiones.usuarios}" reflow="true"
+                                         rowKey="#{sesion.idusuario}" draggableColumns="false"
+                                         scrollable="true" scrollHeight="500">
+                                <f:facet name="header">
+                                    <div align="center">
+                                        <p:outputLabel value="#{sesiones.informacion}"/>
+                                    </div>
+                                </f:facet>
+                                <p:column headerText="ID" sortBy="#{sesion.session.id}">
+                                    <h:outputText value="#{sesion.session.id}" />
+                                </p:column>
+                                <p:column headerText="IP" sortBy="#{sesion.ipremote}">
+                                    <h:outputText value="#{sesion.ipremote}" />
+                                </p:column>
+                                <p:column headerText="Usuario" sortBy="#{sesion.apaterno}">
+                                    <h:outputText value="#{sesion.apaterno} #{sesion.amaterno} #{sesion.nombre}" />
+                                </p:column>
+                                <p:column headerText="Inicio Sesion" sortBy="#{sesion.fechasesion}" style="text-align: center">
+                                    <h:outputText value="#{sesion.fechasesion}" />
+                                </p:column>
+                                <p:column headerText="Ubicación" sortBy="#{sesion.ubicacion}" style="text-align: center">
+                                    <h:outputText value="#{sesion.ubicacion}" />
+                                </p:column>
+                                <p:column width="5%">
+                                    <p:commandButton icon="fa fa-minus"
+                                                     process="idsesiones"
+                                                     styleClass="yellow-btn"
+                                                     actionListener="#{sesiones.eliminar(sesion)}"
+                                                     update="idsesiones"
+                                                     title="Eliminar"/> 
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

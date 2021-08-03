@@ -6,7 +6,7 @@
 package com.puntoventa.administracion;
 
 import com.puntoventa.listener.ConnectionUtil;
-import com.puntoventa.listener.DBConnectionManager;
+import com.puntoventa.sesiones.ControladorSesiones;
 import com.puntoventa.tos.UsuarioTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +21,9 @@ import java.util.List;
 public class AdministracionDAO {
 
     public boolean crear(UsuarioTO u) {
-        Connection con = null;
         PreparedStatement ps = null;
         try {
-            con = DBConnectionManager.getInstance().getConnection();
+            Connection con = ControladorSesiones.getInstance().getConnection();
             ps = con.prepareStatement(Querys.INSERT_USUARIO);
             int i = 1;
             ps.setString(i++, u.getNombre());
@@ -38,18 +37,17 @@ public class AdministracionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ConnectionUtil.endConnection(null, ps, con);
+            ConnectionUtil.endConnection(null, ps, null);
         }
         return false;
     }
 
     public List<UsuarioTO> consultar() {
-        Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         List<UsuarioTO> usuarios = new ArrayList<>();
         try {
-            con = DBConnectionManager.getInstance().getConnection();
+            Connection con = ControladorSesiones.getInstance().getConnection();
             ps = con.prepareStatement(Querys.QUERY_USUARIOS);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -68,16 +66,15 @@ public class AdministracionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ConnectionUtil.endConnection(rs, ps, con);
+            ConnectionUtil.endConnection(rs, ps, null);
         }
         return usuarios;
     }
 
     public boolean editar(UsuarioTO u) {
-        Connection con = null;
         PreparedStatement ps = null;
         try {
-            con = DBConnectionManager.getInstance().getConnection();
+            Connection con = ControladorSesiones.getInstance().getConnection();
             ps = con.prepareStatement(Querys.UPDATE_USUARIO);
             int i = 1;
             ps.setString(i++, u.getApaterno());
@@ -93,16 +90,15 @@ public class AdministracionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ConnectionUtil.endConnection(null, ps, con);
+            ConnectionUtil.endConnection(null, ps, null);
         }
         return false;
     }
 
     public boolean editarEstatus(int idusuario, int estatus) {
-        Connection con = null;
         PreparedStatement ps = null;
         try {
-            con = DBConnectionManager.getInstance().getConnection();
+            Connection con = ControladorSesiones.getInstance().getConnection();
             ps = con.prepareStatement(Querys.UPDATE_ESTATUS);
             ps.setInt(1, estatus);
             ps.setInt(2, idusuario);
@@ -111,7 +107,7 @@ public class AdministracionDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ConnectionUtil.endConnection(null, ps, con);
+            ConnectionUtil.endConnection(null, ps, null);
         }
         return false;
     }

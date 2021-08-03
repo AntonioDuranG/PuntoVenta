@@ -5,13 +5,16 @@
  */
 package com.puntoventa.tos;
 
+import java.util.Date;
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author freet
  */
 public class UsuarioTO {
 
-    private int idusuario;
+    private Integer idusuario;
     private boolean estatus;
 
     private String nombre;
@@ -22,6 +25,11 @@ public class UsuarioTO {
     private String rfc;
     private String curp;
     private String sexo;
+    private String ubicacion;
+
+    private HttpSession session;
+    private String ipremote;
+    private Date fechasesion;
 
     public UsuarioTO(int idusuario, int estatus, String nombre, String apaterno, String amaterno, String email, String rfc, String curp, String sexo) {
         this.idusuario = idusuario;
@@ -42,10 +50,17 @@ public class UsuarioTO {
         this.amaterno = amaterno;
     }
 
+    public void setSesion(HttpSession session, String ipremote, Date fechasesion) {
+        this.session = session;
+        this.ipremote = ipremote;
+        this.fechasesion = fechasesion;
+
+    }
+
     public UsuarioTO() {
     }
 
-    public int getIdusuario() {
+    public Integer getIdusuario() {
         return idusuario;
     }
 
@@ -115,6 +130,26 @@ public class UsuarioTO {
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public HttpSession getSession() {
+        return session;
+    }
+
+    public String getIpremote() {
+        return ipremote;
+    }
+
+    public Date getFechasesion() {
+        return fechasesion;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
 }

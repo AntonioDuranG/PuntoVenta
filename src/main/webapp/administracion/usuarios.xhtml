@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/template.xhtml">
+
+            <ui:define name="title">
+                Administración de Usuarios
+            </ui:define>
+
+            <ui:define name="head">
+                <style>
+                    .ui-datatable thead th .ui-column-title {
+                        font-size: .8em; 
+                    }  
+                    .ui-datatable .ui-datatable-header {
+                        text-align: right !important;
+                    }
+                </style>
+            </ui:define>
+
+            <ui:define name="viewname">
+                Administración de Usuarios
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="false" autoUpdate="true"/>
+                <h:form id="formusuarios">
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-lg-12">
+                            <p:commandButton icon="fa fa-plus" 
+                                             styleClass="green-btn" 
+                                             value="Crear" ajax="true"
+                                             actionListener="#{adminUsuarios.limpiar()}"
+                                             oncomplete="PF('usuarioDialog').show()"
+                                             update=":formusuariocreate:dialogCrearUsuario"
+                                             title="Crear"/> 
+                        </div>
+                        <div class="ui-g-12 ui-lg-12" align="center">
+                            <p:dataTable id="idusuarios" var="usuario" value="#{adminUsuarios.usuarios}" reflow="true" 
+                                         filteredValue="#{adminUsuarios.filteredusuarios}" rowKey="#{usuario.idusuario}" draggableColumns="true"
+                                         scrollable="true" style="font-size: .9em" selectionMode="single" selection="#{adminUsuarios.selectedusuario}"
+                                         paginator="true" rows="10" rowsPerPageTemplate="2,4,6">
+                                <f:facet name="header">
+                                    <div align="left">
+                                        <h:commandLink style="color: white" class="fa fa-file-text">
+                                            <p:dataExporter type="csv" target="idusuarios" fileName="usuarios" />
+                                        </h:commandLink>
+                                    </div>
+                                    <p:outputLabel value="#{adminUsuarios.informacion}" />
+                                </f:facet>
+                                <p:column style="width:16px">
+                                    <p:rowToggler />
+                                </p:column>
+                                <p:column headerText="ID." sortBy="#{usuario.idusuario}"
+                                          filterBy="#{usuario.idusuario}" filterMatchMode="contains">
+                                    <h:outputText value="#{usuario.idusuario}"/>
+                                </p:column>
+                                <p:column headerText="A. Paterno" sortBy="#{usuario.apaterno}"
+                                          filterBy="#{usuario.apaterno}" filterMatchMode="contains">
+                                    <p:inputText value="#{usuario.apaterno}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}A.Paterno"/>
+                                </p:column>
+                                <p:column headerText="A. Materno" sortBy="#{usuario.amaterno}"
+                                          filterBy="#{usuario.amaterno}" filterMatchMode="contains">
+                                    <p:inputText value="#{usuario.amaterno}"/>
+                                </p:column>
+                                <p:column headerText="Nombre" sortBy="#{usuario.nombre}"
+                                          filterBy="#{usuario.nombre}" filterMatchMode="contains">
+                                    <p:inputText value="#{usuario.nombre}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}A.Materno"/>
+                                </p:column>
+                                <p:column headerText="E-Mail" sortBy="#{usuario.email}"
+                                          filterBy="#{usuario.email}" filterMatchMode="contains">
+                                    <p:inputText value="#{usuario.email}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}E-Mail"/>
+                                </p:column>
+                                <p:column headerText="Sexo" sortBy="#{usuario.sexo}">
+                                    <p:outputLabel value="#{usuario.sexo=='M'?'Masculino':(usuario.sexo=='F'?'Femenino':'NA')}"/>
+                                </p:column>
+                                <p:column headerText="" style="text-align: center" width="100" exportable="false">
+                                    <p:commandButton icon="fa fa-check" 
+                                                     update="idusuarios"
+                                                     styleClass="green-btn"
+                                                     actionListener="#{adminUsuarios.editar(usuario)}"/>
+                                </p:column>
+                                <p:column headerText="Estatus" sortBy="#{usuario.estatus}" style="text-align: center" width="100">
+                                    <p:graphicImage name="images/icon-checked.png" library="california-layout" width="25px"
+                                                    rendered="#{usuario.estatus}"/>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:panelGrid columns="2" style="width: 30%">
+                                        <p:outputLabel value="RFC:"/>
+                                        <p:inputText value="#{usuario.rfc}"/>
+                                        <p:outputLabel value="CURP:"/>
+                                        <p:inputText value="#{usuario.curp}"/>
+                                        <p:outputLabel value="Sexo:"/>
+                                        <p:selectOneMenu value="#{usuario.sexo}"
+                                                         filter="true" filterMatchMode="contains">  
+                                            <f:selectItems value="#{appBean.comboSexo}"/>  
+                                        </p:selectOneMenu>
+                                    </p:panelGrid>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                            <p:contextMenu for="idusuarios">
+                                <p:menuitem value="Activar" actionListener="#{adminUsuarios.editarEstatus(1)}" update="idusuarios" icon="fa fa-level-up"/>
+                                <p:menuitem value="Desactivar" actionListener="#{adminUsuarios.editarEstatus(0)}" update="idusuarios" icon="fa fa-level-down"/>
+                            </p:contextMenu>
+                        </div>
+                    </div>
+                </h:form>
+                <h:form id="formusuariocreate">
+                    <p:dialog id="dialogCrearUsuario" header="Crear Usuario" widgetVar="usuarioDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" 
+                              closeOnEscape="true" width="50%">
+                        <div class="ui-g ui-fluid">
+                            <div class="ui-g-12 ui-lg-4" align="center">
+                                <h4>A. Paterno *:</h4>
+                                <p:inputText id="idpaterno" value="#{adminUsuarios.usuario.apaterno}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}A.Paterno"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4" align="center">
+                                <h4>A. Materno :</h4>
+                                <p:inputText value="#{adminUsuarios.usuario.amaterno}"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-4" align="center">
+                                <h4>Nombre *:</h4>
+                                <p:inputText id="idnombre" value="#{adminUsuarios.usuario.nombre}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}Nombre"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-6" align="center">
+                                <h4>E-Mail *:</h4>
+                                <p:inputText id="idemail" value="#{adminUsuarios.usuario.email}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}Nombre"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-6" align="center">
+                                <h4>Password *:</h4>
+                                <p:inputText id="idpassword" value="#{adminUsuarios.usuario.password}" required="true" requiredMessage="#{appBean.mensajeErrorIngresar}Password"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-6" align="center">
+                                <p:commandButton icon="fa fa-times" 
+                                                 styleClass="outline-btn" 
+                                                 value="Cerrar"
+                                                 oncomplete="PF('usuarioDialog').hide()" 
+                                                 immediate="true"/>
+                            </div>
+                            <div class="ui-g-12 ui-lg-6" align="center">
+                                <p:commandButton process="@parent" 
+                                                 icon="fa fa-check" 
+                                                 styleClass="green-btn" 
+                                                 value="Guardar"
+                                                 update="idpaterno,idnombre,idemail,idpassword,:formusuarios"
+                                                 oncomplete="handleCreate(args)"
+                                                 actionListener="#{adminUsuarios.crear()}" />
+                            </div>
+                        </div>
+                    </p:dialog>
+                </h:form>
+                <script>
+                    function handleCreate(args) {
+                        if (args.esvalido) {
+                            PF('usuarioDialog').hide();
+                        }
+                    }
+                </script>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

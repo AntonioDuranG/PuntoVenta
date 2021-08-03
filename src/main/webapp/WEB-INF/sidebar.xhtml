@@ -1,0 +1,44 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pc="http://primefaces.org/california">
+
+    <div class="layout-sidebar layout-sidebar-dark">
+        <div id="nano-container" class="nano">
+            <div class="nano-content sidebar-scroll-content">
+                <ui:fragment rendered="true">
+                    <div class="user-profile">
+                        <a id="sidebar-profile-button" href="#">
+                            <p:graphicImage name="images/avatar-warren.png" library="california-layout" />
+                            <span class="sidebar-profile-name">Jesús Zaldivar</span>
+                            <span class="sidebar-profile-role">Administrador</span>
+                        </a>
+                        <ul id="sidebar-usermenu" class="usermenu">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-fw fa-user"></i>
+                                    <span class="topbar-item-name">Perfil</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </ui:fragment>
+
+                <h:form id="menuform">
+                    <pc:menu widgetVar="me">
+                        <p:menuitem id="om_inicio" value="Dashboard" outcome="/dashboard"/>
+                        <p:submenu id="om_administracion" label="Administración">
+                            <p:menuitem id="om_usuarios" value="Usuarios" outcome="/administracion/usuarios"/>
+                            <p:menuitem id="om_perfiles" value="Perfiles" outcome="/administracion/perfiles"/>
+                        </p:submenu>
+                    </pc:menu>
+                </h:form>
+            </div>
+        </div>
+
+    </div>
+
+</ui:composition>

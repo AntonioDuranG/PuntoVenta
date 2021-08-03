@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+    <name>PuntoVenta</name>
+    
+    <lifecycle>
+        <phase-listener>com.puntoventa.sesiones.AutorizadorListener</phase-listener>
+    </lifecycle>
+    
+    <component>
+        <component-type>org.primefaces.component.CaliforniaMenu</component-type>
+        <component-class>com.puntoventa.menu.CaliforniaMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.CaliforniaMenuRenderer</renderer-type>
+            <renderer-class>com.puntoventa.menu.CaliforniaMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+</faces-config>

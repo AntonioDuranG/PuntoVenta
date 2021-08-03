@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/template.xhtml">
+
+            <ui:define name="title">
+                Parámetros
+            </ui:define>
+
+            <ui:define name="head">
+                <style>
+                    .ui-datatable thead th .ui-column-title {
+                        font-size: .8em; 
+                    }  
+                    .ui-datatable .ui-datatable-header {
+                        text-align: right !important;
+                    }
+                </style>
+            </ui:define>
+
+            <ui:define name="viewname">
+                Parámetros
+            </ui:define>
+
+            <ui:define name="content">
+                <p:growl id="msgs" showDetail="false" autoUpdate="true"/>
+                <h:form>
+                    <div class="ui-g ui-fluid">
+                        <div class="ui-g-12 ui-lg-12">
+                            <p:dataTable id="idparametros" var="parametro" value="#{adminParametros.parametros}" reflow="true" 
+                                         filteredValue="#{adminParametros.filteredparametros}" style="font-size: .9em">
+                                <f:facet name="header">
+                                    <p:outputLabel value="#{adminParametros.informacion}" />
+                                </f:facet>
+                                <p:column headerText="ID." sortBy="#{parametro.idparametro}"
+                                          filterBy="#{parametro.idparametro}" filterMatchMode="contains">
+                                    <h:outputText value="#{parametro.idparametro}"/>
+                                </p:column>
+                                <p:column headerText="Parámetro" sortBy="#{parametro.parametro}"
+                                          filterBy="#{parametro.parametro}" filterMatchMode="contains">
+                                    <h:outputText value="#{parametro.parametro}"/>
+                                </p:column>
+                                <p:column headerText="Descripción" sortBy="#{parametro.descripcion}"
+                                          filterBy="#{parametro.descripcion}" filterMatchMode="contains">
+                                    <p:inputText value="#{parametro.descripcion}"/>
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{parametro.valor}"
+                                          filterBy="#{parametro.valor}" filterMatchMode="contains">
+                                    <p:inputText value="#{parametro.valor}"/>
+                                </p:column>
+                                <p:column headerText="" style="text-align: center" width="50" exportable="false">
+                                    <p:commandButton icon="fa fa-check" 
+                                                     update="@form"
+                                                     styleClass="green-btn"
+                                                     actionListener="#{adminParametros.editar(parametro)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

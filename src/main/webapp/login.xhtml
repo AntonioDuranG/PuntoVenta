@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+         <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <link href='https://fonts.googleapis.com/css?family=Montserrat Alternates' rel='stylesheet'></link>
+        <title>Punto Venta</title>
+        <style>
+            h1 {
+                font-family: 'Montserrat Alternates';
+                color: #F15D35;
+            }
+            * {
+                font-family: 'Montserrat Alternates';
+                color: white;
+            }
+            .bg{
+                background: url('resources/california-layout/images/fondoazul.jpg') no-repeat; width: 100%;height: 100vh;
+            }
+            .form-container{
+                padding: 50px 40px;
+                margin-top: 20vh;
+                -webkit-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+                -moz-box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+                box-shadow: -1px 4px 26px 11px rgba(0,0,0,0.75);
+            }
+        </style>
+    </h:head>
+    <h:body styleClass="login-body">
+        <p:growl id="msgs" showDetail="false"/>
+        <div class="container-fluid bg">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <h:form id="form" class="form-container" >
+                        <h1>Punto-Venta</h1>
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank form-group">
+
+                            <p:outputLabel value="Usuario:" 
+                                           style="font-family: 'Montserrat Alternates';width: 100%;"/>
+                            <p:inputText placeholder="Usuario" value="#{login.mail}"
+                                         style="font-family: 'Montserrat Alternates';width: 100%;color: black"
+                                         required="true" requiredMessage="Favor de Ingresar Usuario"/>
+
+                            <p:outputLabel value="Contraseña"
+                                           style="font-family: 'Montserrat Alternates';width: 100%;"/>
+                            <p:password placeholder="Contraseña" value="#{login.password}"
+                                        style="font-family: 'Montserrat Alternates';width: 100%;color: black"
+                                        required="true" requiredMessage="Favor de Ingresar Contraseña"/>
+                        </p:panelGrid>
+
+                        <p:commandButton styleClass="green-btn" value="Aceptar" style="width: 100%" update=":msgs"
+                                         actionListener="#{login.login(e)}"/>
+                        <br/><br/>
+                        <p:commandButton styleClass="primary-btn" value="Recuperar Contraseña" style="width: 100%"/>
+
+                    </h:form>
+                </div>
+
+            </div>
+        </div>
+    </h:body>
+</html>
+
